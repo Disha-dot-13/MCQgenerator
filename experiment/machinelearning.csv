@@ -1,6 +1,6 @@
 MCQ,Choices,Correct
-What does machine learning primarily focus on?,A: Learning from data | B: Manual programming | C: Hardware development | D: Data storage,A
-Which subfield of machine learning has shown significant advancements recently?,A: Deep learning | B: Reinforcement learning | C: Supervised learning | D: Unsupervised learning,A
-What is predictive analytics?,A: Application of ML to business problems | B: A type of data storage | C: A programming language | D: A hardware component,A
-Which method is a foundation of machine learning?,A: Statistics | B: Web development | C: Graphic design | D: Networking,A
-What does empirical risk minimisation relate to?,A: Machine learning algorithms | B: Data storage techniques | C: Network security | D: User interface design,A
+What is the primary goal of machine learning?,A: To explicitly program computers to perform tasks. | B: To allow computers to learn from data and make predictions. | C: To solely rely on pre-defined rules for problem-solving. | D: To build entirely new hardware components.,B
+Deep learning utilizes which type of algorithm?,A: Rule-based systems. | B: Neural networks. | C: Linear regression models. | D: Decision trees.,B
+Predictive analytics refers to:,A: The process of manually analyzing data without algorithms. | B: The application of machine learning to solve business problems. | C: The creation of physical models to represent data. | D: The collection of raw data for future analysis.,B
+Which of the following is a foundational element of machine learning?,A: Quantum computing. | B: Statistical analysis and mathematical optimization. | C: Biological simulations. | D: Mechanical engineering design.,B
+What does the term 'empirical risk minimisation' relate to in machine learning?,A: The physical construction of a machine learning algorithm. | B: A theoretical framework for describing how algorithms learn from data. | C: The use of human intuition in model development. | D: The process of gathering data for training.,B
