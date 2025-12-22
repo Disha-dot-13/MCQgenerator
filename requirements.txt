@@ -1,7 +1,10 @@
-openai
 langchain
+langchain-community
+langchain-ollama
+ollama
 streamlit
-python-dotenv
-pyPDF2
+pandas
+PyPDF2
+
 
 

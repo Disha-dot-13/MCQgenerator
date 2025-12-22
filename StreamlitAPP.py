@@ -1,20 +1,14 @@
 import json
 import traceback
 import pandas as pd
-from dotenv import load_dotenv
-
 import streamlit as st
 
 from src.mcqgenerator.utils import read_file, get_table_data
 from src.mcqgenerator.MCQGen import generate_evaluate_chain
-from langchain_community.callbacks import get_openai_callback
-
-# Load environment variables
-load_dotenv()
 
 # ---------------- STREAMLIT UI ----------------
-st.set_page_config(page_title="MCQ Generator", layout="wide")
-st.title("MCQ Generator and Evaluator")
+st.set_page_config(page_title="MCQ Generator (Ollama)", layout="wide")
+st.title("🧠📘 MCQ Generator & Evaluator using LLM (Ollama)")
 
 with st.form("user_inputs"):
     uploaded_file = st.file_uploader(
@@ -25,7 +19,7 @@ with st.form("user_inputs"):
     mcq_count = st.number_input(
         "Number of Questions",
         min_value=1,
-        max_value=50,
+        max_value=20,
         value=5
     )
 
@@ -46,23 +40,19 @@ if submit_button and uploaded_file and subject and tone:
             # Step 1: Read file
             text = read_file(uploaded_file)
 
-            # Step 2: Call LLM
-            with get_openai_callback() as cb:
-                result = generate_evaluate_chain(
-                    {
-                        "text": text,
-                        "number": mcq_count,
-                        "subject": subject,
-                        "tone": tone,
-                    }
-                )
+            # Step 2: Call Ollama chain (NO CALLBACK)
+            result = generate_evaluate_chain(
+                {
+                    "text": text,
+                    "number": mcq_count,
+                    "subject": subject,
+                    "tone": tone,
+                }
+            )
 
-            # Step 3: Parse quiz JSON
-            quiz_data = json.loads(result["quiz"])
-            review_text = result["review"]
-
-            # Step 4: Convert to table
-            quiz_table_data = get_table_data(quiz_data)
+            # Step 3: Convert quiz JSON → table
+            # result["quiz"] is already a clean JSON string
+            quiz_table_data = get_table_data(result["quiz"])
 
             if not quiz_table_data:
                 st.error("Failed to generate quiz table.")
@@ -76,14 +66,16 @@ if submit_button and uploaded_file and subject and tone:
             st.table(quiz_df)
 
             st.subheader("Quiz Review")
-            st.text_area("Review", value=review_text, height=150)
+            st.text_area(
+                label="Review",
+                value=result["review"],
+                height=150
+            )
 
-            # ---------------- TOKEN USAGE ----------------
-            with st.expander("Token Usage"):
-                st.write(f"Total Tokens: {cb.total_tokens}")
-                st.write(f"Prompt Tokens: {cb.prompt_tokens}")
-                st.write(f"Completion Tokens: {cb.completion_tokens}")
-                st.write(f"Total Cost ($): {cb.total_cost}")
+            # ---------------- INFO ----------------
+            with st.expander("Model Info"):
+                st.write("Model: **gemma3:4b (Ollama – Local)**")
+                st.write("No API key • No billing • Offline inference")
 
         except Exception as e:
             traceback.print_exception(type(e), e, e.__traceback__)
